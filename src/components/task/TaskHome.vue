@@ -43,6 +43,7 @@ const items: any = [
 function updateDialogStatus(data: any) {
   console.log(data);
   dialogStatus.value = false;
+  productPerformance.push(data);
 }
 
 function openDialog() {
