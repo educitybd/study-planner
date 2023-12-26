@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-
+import { ref } from 'vue';
 import type { productPerformanceType } from '@/types/dashboard/index';
 import { EditIcon, TrashIcon } from 'vue-tabler-icons';
 import Dialog from '@/components/shared/Dialog.vue';
-let isOpen: Boolean = false;
+
+let dialogStatus: any = ref(false);
+let dialogResponse: any = ref({});
 const productPerformance: productPerformanceType[] = [
   {
     id: 1,
@@ -17,30 +18,21 @@ const productPerformance: productPerformanceType[] = [
   },
   {
     id: 2,
-    name: 'Andrew McDownland',
-    post: 'Project Manager',
-    pname: 'Real Homes WP Theme',
-    status: 'Medium',
+    name: 'Meet with my professor',
+    post: '10 minutes overdue',
+    pname: '10 June, 2023',
+    status: 'Normal',
     statuscolor: 'secondary',
-    budget: '$24.5k'
+    budget: '07:00 AM'
   },
   {
     id: 3,
-    name: 'Christopher Jamil',
-    post: 'Project Manager',
-    pname: 'MedicalPro WP Theme',
+    name: 'Meet with my professor',
+    post: '10 minutes remaining',
+    pname: '10 July, 2023',
     status: 'High',
     statuscolor: 'error',
-    budget: '$12.8k'
-  },
-  {
-    id: 4,
-    name: 'Nirav Joshi',
-    post: 'Frontend Engineer',
-    pname: 'Hosting Press HTML',
-    status: 'Critical',
-    statuscolor: 'success',
-    budget: '$2.4k'
+    budget: '12:00 AM'
   }
 ];
 const items: any = [
@@ -48,19 +40,23 @@ const items: any = [
   { title: 'Delete', icon: TrashIcon }
 ];
 
-function setIsOpen() {
-  isOpen = true;
-  console.log(isOpen);
+function updateDialogStatus(data: any) {
+  console.log(data);
+  dialogStatus.value = false;
 }
-console.log(isOpen);
+
+function openDialog() {
+  dialogStatus.value = true;
+}
 </script>
 <template>
-  <Dialog v-if="isOpen" :isOpen="isOpen" />
+  <Dialog @dialogClosed="updateDialogStatus" v-if="dialogStatus" :dialogStatus="dialogStatus" title="Add New Task" />
   <v-card elevation="10" class="month-table" variant="elevated">
     <v-card-item class="pa-6">
       <v-card-title class="text-h5 pt-sm-2 pb-7"
         >My Tasks/ ToDo
-        <v-btn @click="setIsOpen" class="float-end" icon="mdi-plus" color="primary"></v-btn>
+        {{ dialogResponse }}
+        <v-btn @click="openDialog" class="float-end" icon="mdi-plus" color="primary"></v-btn>
       </v-card-title>
 
       <v-table>
